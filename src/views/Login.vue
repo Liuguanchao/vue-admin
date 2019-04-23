@@ -44,24 +44,28 @@
         this.$refs.ruleForm2.resetFields();
       },
       handleSubmit2(ev) {
+        console.log(1);
         var _this = this;
         this.$refs.ruleForm2.validate((valid) => {
           if (valid) {
             //_this.$router.replace('/table');
             this.logining = true;
             //NProgress.start();
-            var loginParams = { username: this.ruleForm2.account, password: this.ruleForm2.checkPass };
+            console.log(2);
+            var loginParams = { userName: this.ruleForm2.account, pwd: this.ruleForm2.checkPass };
+            console.log(3);
             requestLogin(loginParams).then(data => {
               this.logining = false;
               //NProgress.done();
-              let { msg, code, user } = data;
-              if (code !== 200) {
+              console.log(data);
+              let { msg, success, data } = data;
+              if (success !== true) {
                 this.$message({
                   message: msg,
                   type: 'error'
                 });
               } else {
-                sessionStorage.setItem('user', JSON.stringify(user));
+                sessionStorage.setItem('user', JSON.stringify(data));
                 this.$router.push({ path: '/table' });
               }
             });
